@@ -1,6 +1,6 @@
-package org.route;
+package org.route.Pricing;
 
-import org.springframework.context.annotation.Primary;
+import org.route.Model.Product;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

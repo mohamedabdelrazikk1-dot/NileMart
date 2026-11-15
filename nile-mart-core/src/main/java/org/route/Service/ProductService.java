@@ -1,11 +1,14 @@
-package org.route;
+package org.route.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.route.common.Check;
+import org.route.Model.CategoryEnum;
+import org.route.Model.Product;
+import org.route.Pricing.PricingService;
+import org.route.Repository.ProductRepository;
+import org.route.config.Check;
 import org.route.common.NotFoundException;
 import org.route.common.OutOFStockException;
 import org.route.common.StoreException;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.*;

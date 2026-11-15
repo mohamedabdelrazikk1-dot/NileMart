@@ -1,9 +1,9 @@
 package org.route;
 
+import org.route.Service.ProductService;
+import org.route.config.AppConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 
 public class Main {

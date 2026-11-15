@@ -1,4 +1,4 @@
-package org.route.common;
+package org.route.config;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

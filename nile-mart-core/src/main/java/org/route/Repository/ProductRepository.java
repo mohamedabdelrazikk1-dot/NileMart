@@ -1,4 +1,6 @@
-package org.route;
+package org.route.Repository;
+
+import org.route.Model.Product;
 
 import java.util.Optional;
 @org.springframework.stereotype.Repository

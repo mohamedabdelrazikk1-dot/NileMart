@@ -1,4 +1,6 @@
-package org.route.common;
+package org.route.config;
+
+import org.route.common.StoreException;
 
 import java.util.Optional;
 import java.util.function.Supplier;

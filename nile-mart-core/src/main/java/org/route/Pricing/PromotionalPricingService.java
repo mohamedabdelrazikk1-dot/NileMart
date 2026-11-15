@@ -1,5 +1,6 @@
-package org.route;
+package org.route.Pricing;
 
+import org.route.Model.Product;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
