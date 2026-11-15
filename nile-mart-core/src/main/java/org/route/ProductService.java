@@ -1,5 +1,6 @@
 package org.route;
 
+import lombok.RequiredArgsConstructor;
 import org.route.common.Check;
 import org.route.common.NotFoundException;
 import org.route.common.OutOFStockException;
@@ -12,16 +13,17 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository repository;
     private final PricingService pricingService;
 
-    public ProductService(@Qualifier("inMemoryProductRepository") ProductRepository repository,
-                          PricingService pricingService) {
-        this.repository = repository;
-        this.pricingService = pricingService;
-    }
+//    public ProductService(@Qualifier("inMemoryProductRepository") ProductRepository repository,
+//                          PricingService pricingService) {
+//        this.repository = repository;
+//        this.pricingService = pricingService;
+//    }
 
     public BigDecimal getPrice(String sku, int qty) throws StoreException {
         Product product = findBySku(sku);
