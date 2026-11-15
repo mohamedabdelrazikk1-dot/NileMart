@@ -2,6 +2,8 @@ package org.route;
 
 import java.util.Optional;
 
-public interface ProductRepository {
-    Optional<Product> findBySku(String sku);
+public interface ProductRepository extends Repository<Product,String> {
+    default Optional<Product> findBySku(String sku){
+      return   findById(sku);
+    }
 }

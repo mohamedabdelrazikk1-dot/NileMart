@@ -1,41 +1,98 @@
 package org.route;
 
 import jakarta.annotation.PostConstruct;
+import org.route.common.Money;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class InMemoryProductRepository implements ProductRepository{
 
-    private final HashMap<String, Product> store = new HashMap<>();
+    private final Map<String, Product> store = new ConcurrentHashMap<>();
 
-    @PostConstruct
-    void saveProducts() {
-        Product p1 = Product.builder()
-                .name("Galaxy S25")
-                .sku("PH-SAM-S25")
-                .price(BigDecimal.valueOf(10000))
-                .category("Phone")
-                .isActive(true)
-                .build();
-        Product p2 = Product.builder()
-                .name("ASUS TUF F16")
-                .sku("LAP-ASUS-F16")
-                .price(BigDecimal.valueOf(30000))
-                .category("Laptop")
-                .isActive(true)
-                .build();
-
-        store.put(p1.getSku(), p1);
-        store.put(p2.getSku(), p2);
+    @Override
+    public List<Product> findAll() {
+            return List.copyOf(store.values());
     }
 
     @Override
-    public Optional<Product> findBySku(String sku) {
-        return Optional.ofNullable(store.get(sku));
+    public Optional<Product> findById(String s) {
+        return Optional.ofNullable(store.get(s));
     }
 
+
+    @Override
+    public Product save (Product entity) {
+        store.put(entity.getSku(), entity);
+        return entity;
+    }
+    public void loadSeedProducts() {
+
+        save(Product.builder()
+                .sku("ACC-CHG-20W")
+                .name("USB-C Charger 20W")
+                .category(CategoryEnum.ELECTRONICS)
+                .price(Money.of("350.00"))
+                .stockQuantity(15)
+                .build());
+
+        save(Product.builder()
+                .sku("ACC-USB-C")
+                .name("USB-C Cable 1m")
+                .category(CategoryEnum.ELECTRONICS)
+                .price(Money.of("120.00"))
+                .stockQuantity(30)
+                .build());
+
+        save(Product.builder()
+                .sku("FAS-T01")
+                .name("Cotton T-Shirt")
+                .category(CategoryEnum.FASHION)
+                .price(Money.of("250.00"))
+                .stockQuantity(20)
+                .build());
+
+        save(Product.builder()
+                .sku("FAS-J01")
+                .name("Denim Jeans")
+                .category(CategoryEnum.FASHION)
+                .price(Money.of("650.00"))
+                .stockQuantity(8)
+                .build());
+
+        save(Product.builder()
+                .sku("HOM-P01")
+                .name("Non-stick Frying Pan 28cm")
+                .category(CategoryEnum.HOME_KITCHEN)
+                .price(Money.of("550.00"))
+                .stockQuantity(3)
+                .build());
+
+        save(Product.builder()
+                .sku("BEA-S50")
+                .name("Sun Cream SPF50")
+                .category(CategoryEnum.BEAUTY)
+                .price(Money.of("300.00"))
+                .stockQuantity(0)
+                .build());
+
+        save(Product.builder()
+                .sku("BOO-J01")
+                .name("Clean Code")
+                .category(CategoryEnum.BOOKS)
+                .price(Money.of("750.00"))
+                .stockQuantity(12)
+                .build());
+
+        save(Product.builder()
+                .sku("HOM-M01")
+                .name("Ceramic Coffee Mug")
+                .category(CategoryEnum.HOME_KITCHEN)
+                .price(Money.of("150.00"))
+                .stockQuantity(25)
+                .build());
+    }
 }

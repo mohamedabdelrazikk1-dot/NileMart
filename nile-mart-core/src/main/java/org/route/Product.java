@@ -5,7 +5,6 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -13,8 +12,11 @@ import java.math.BigDecimal;
 @Builder
 public class Product {
     private String name;
+    @EqualsAndHashCode.Include
     private String sku;
     private BigDecimal price;
-    private String category;
+    private CategoryEnum category;
+    @Setter
+    private int stockQuantity;
     private boolean isActive;
    }
