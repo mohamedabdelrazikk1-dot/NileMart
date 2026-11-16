@@ -1,15 +1,28 @@
 package org.route.Repository;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.route.Model.CategoryEnum;
 import org.route.Model.Product;
+import org.route.Model.Product.ProductBuilder;
+import org.route.common.StoreException;
 import org.route.config.Money;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 @Component
 public class InMemoryProductRepository implements ProductRepository{
+
 
     private final Map<String, Product> store = new ConcurrentHashMap<>();
 
@@ -20,7 +33,10 @@ public class InMemoryProductRepository implements ProductRepository{
 
     @Override
     public Optional<Product> findById(String s) {
-        return Optional.ofNullable(store.get(s));
+      Optional<Product>    p = Optional.ofNullable(store.get(s));
+        System.out.println(p);
+        return p;
+
     }
 
 
@@ -29,70 +45,45 @@ public class InMemoryProductRepository implements ProductRepository{
         store.put(entity.getSku(), entity);
         return entity;
     }
-    public void loadSeedProducts() {
+    @PostConstruct
+    public void loadSeedProducts()  {
 
-        save(Product.builder()
-                .sku("ACC-CHG-20W")
-                .name("USB-C Charger 20W")
-                .category(CategoryEnum.ELECTRONICS)
-                .price(Money.of("350.00"))
-                .stockQuantity(15)
-                .build());
 
-        save(Product.builder()
-                .sku("ACC-USB-C")
-                .name("USB-C Cable 1m")
-                .category(CategoryEnum.ELECTRONICS)
-                .price(Money.of("120.00"))
-                .stockQuantity(30)
-                .build());
+            InputStream is = InMemoryProductRepository.class.getClassLoader().getResourceAsStream("products.csv");
 
-        save(Product.builder()
-                .sku("FAS-T01")
-                .name("Cotton T-Shirt")
-                .category(CategoryEnum.FASHION)
-                .price(Money.of("250.00"))
-                .stockQuantity(20)
-                .build());
 
-        save(Product.builder()
-                .sku("FAS-J01")
-                .name("Denim Jeans")
-                .category(CategoryEnum.FASHION)
-                .price(Money.of("650.00"))
-                .stockQuantity(8)
-                .build());
+        if (is == null) {
+            throw new StoreException("The Catalog cannot by loaded"  );
+        }
 
-        save(Product.builder()
-                .sku("HOM-P01")
-                .name("Non-stick Frying Pan 28cm")
-                .category(CategoryEnum.HOME_KITCHEN)
-                .price(Money.of("550.00"))
-                .stockQuantity(3)
-                .build());
+        try (BufferedReader bufferedReader= new BufferedReader(new InputStreamReader(is))) {
+            String header = bufferedReader.readLine();
+            String row;
+            while ((row = bufferedReader.readLine()) != null) {
+                String[] fields = row.split(",");
+                Product product =
+                        Product.builder().
+                        sku(fields[0])
+                        .name(fields[1]).
+                        price(new BigDecimal(fields[3]))
+                        .category(CategoryEnum.valueOf(fields[2]))
+                        .stockQuantity(Integer.parseInt(fields[4]))
+                        .build();
 
-        save(Product.builder()
-                .sku("BEA-S50")
-                .name("Sun Cream SPF50")
-                .category(CategoryEnum.BEAUTY)
-                .price(Money.of("300.00"))
-                .stockQuantity(0)
-                .build());
+                store.put(product.getSku(), product);
 
-        save(Product.builder()
-                .sku("BOO-J01")
-                .name("Clean Code")
-                .category(CategoryEnum.BOOKS)
-                .price(Money.of("750.00"))
-                .stockQuantity(12)
-                .build());
+                System.out.println("Catalog loaded: " + store.size() + "Products");
+            }
 
-        save(Product.builder()
-                .sku("HOM-M01")
-                .name("Ceramic Coffee Mug")
-                .category(CategoryEnum.HOME_KITCHEN)
-                .price(Money.of("150.00"))
-                .stockQuantity(25)
-                .build());
+        }
+        catch (IOException e)
+            {
+                throw new StoreException("The Catalog cannot by loaded" ,e );
+            }
+
+    }
+    @PreDestroy
+    public void closeCatalog() {
+        System.out.println("Catalog closed");
     }
 }

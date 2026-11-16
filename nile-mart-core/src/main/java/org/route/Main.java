@@ -1,6 +1,8 @@
 package org.route;
 
+import org.route.Cart.ShoppingCart;
 import org.route.Service.ProductService;
+import org.route.common.StoreException;
 import org.route.config.AppConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -9,13 +11,19 @@ import java.util.Arrays;
 public class Main {
 
     void main(){
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        ProductService service = context.getBean(ProductService.class);
-        System.out.println(
-                Arrays.toString(context.getBeanDefinitionNames())
-        );
+        try (            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        ){
+         ProductService productService = context.getBean(ProductService.class);
+         productService.findBySku("PH-X5-128");
 
-        context.close();
+     ShoppingCart shoppingCart = new ShoppingCart(productService,15);
+     ShoppingCart shoppingCart2 =new ShoppingCart(productService,15);
+            System.out.println(shoppingCart.equals(shoppingCart2));
+        }
+        catch (Exception e){
+           throw new StoreException(e.getMessage());
+        }
+
 
 //        StandardPricingService standardPricingService = new StandardPricingService();
 //        PromotionalPricingService promotionalPricingService=new PromotionalPricingService(BigDecimal.valueOf(10));

@@ -48,9 +48,9 @@ public class ProductService {
              () -> new NotFoundException("Product " + sku +" not found.")
      );
 
+
     }
     public void reduceStock(String sku, int qty) throws OutOFStockException {
-
         Product product = this.findBySku(sku);
         if(qty<=0){
             throw new StoreException("quantity must be greater than 0.");
