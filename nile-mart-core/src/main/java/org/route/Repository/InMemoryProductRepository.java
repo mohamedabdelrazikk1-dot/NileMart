@@ -65,7 +65,7 @@ public class InMemoryProductRepository implements ProductRepository{
                         Product.builder().
                         sku(fields[0])
                         .name(fields[1]).
-                        price(new BigDecimal(fields[3]))
+                        price(Money.of(fields[3]))
                         .category(CategoryEnum.valueOf(fields[2]))
                         .stockQuantity(Integer.parseInt(fields[4]))
                         .build();

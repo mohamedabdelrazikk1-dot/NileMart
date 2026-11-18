@@ -20,6 +20,7 @@ public enum Zone {
     private final BigDecimal fee;
     private final boolean freeShipping;
 
+
     Zone(BigDecimal fee, boolean freeShipping) {
         this.fee = fee;
         this.freeShipping = freeShipping;

@@ -1,9 +1,6 @@
 package org.route.Cart;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.route.Model.Customer;
 import org.route.Model.Product;
 import org.route.Service.ProductService;
@@ -18,7 +15,7 @@ import java.util.*;
 
 @Component
 @Scope("prototype")
-@RequiredArgsConstructor
+@Data
 public class ShoppingCart {
     @Getter
     private  long cartNumber;
@@ -28,7 +25,7 @@ public class ShoppingCart {
 
     private final ProductService productService;
     private final int maxQuantity;
-    public ShoppingCart(ProductService productService,@Value("${store.max-quantity-per-product}") int maxQuantity,long cartNumber) {
+    public ShoppingCart(ProductService productService,@Value("${store.max-quantity-per-product}") int maxQuantity) {
         this.productService = productService;
         this.maxQuantity = maxQuantity;
     }
@@ -43,6 +40,7 @@ public class ShoppingCart {
         }
         this.customer = customer;
         this.cartNumber=number;
+        System.out.println("Shopping cart opened");
     }
  public void addItem(String sku,  int quantity) {
         if(quantity < 1) {

@@ -24,7 +24,6 @@ public class ShippingQuoteService
     public BigDecimal quote(Governorate g, BigDecimal subTotal){
         if(subTotal.compareTo(threshold) >= 0&&g.getZone().isFreeShipping()){
            return freeShippingCalculator.calculate(g);
-
         }
         else{
          return    zoneShippingCalculator.calculate(g);

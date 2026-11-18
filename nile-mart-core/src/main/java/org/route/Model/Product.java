@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @EqualsAndHashCode
 @Builder
 public class Product {
@@ -18,5 +17,19 @@ public class Product {
     private CategoryEnum category;
     @Setter
     private int stockQuantity;
+
     private boolean isActive;
+    @Override
+    public String toString() {
+        return "\nProduct{" +
+                "\n  name='" + name + '\'' +
+                "\n  sku='" + sku + '\'' +
+                "\n  price=" + price +
+                "\n  category=" + category +
+                "\n  stockQuantity=" + stockQuantity +
+                "\n  isActive=" + isActive +
+                "\n}";
+    }
+
+
    }

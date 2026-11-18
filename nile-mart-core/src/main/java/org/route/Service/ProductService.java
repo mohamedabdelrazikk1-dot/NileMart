@@ -1,6 +1,8 @@
 package org.route.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import org.route.CheckOut.OrderRegistry;
 import org.route.Model.CategoryEnum;
 import org.route.Model.Product;
 import org.route.Pricing.PricingService;
@@ -17,16 +19,11 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+
 public class ProductService {
 
     private final ProductRepository repository;
     private final PricingService pricingService;
-
-//    public ProductService(@Qualifier("inMemoryProductRepository") ProductRepository repository,
-//                          PricingService pricingService) {
-//        this.repository = repository;
-//        this.pricingService = pricingService;
-//    }
 
     public BigDecimal getPrice(String sku, int qty) throws StoreException {
         Product product = findBySku(sku);
@@ -34,11 +31,9 @@ public class ProductService {
     }
 
     public List<Product> findAll(){
-
-        return repository.findAll()
+        return   repository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(Product::getCategory)
-                        .thenComparing(Product::getName)).
+                .sorted(Comparator.comparing(Product::getCategory).thenComparing(Product::getName)).
                 toList();
     }
 
@@ -63,19 +58,26 @@ public class ProductService {
     }
 
     public List<Product> search (Predicate<Product> filter){
-        return repository.findAll().
+        List<Product> products = repository.findAll().
                 stream().
                 filter(filter).
                 toList();
+        System.out.println(products);
+        return products;
+
     }
+
     public Map<CategoryEnum, List<Product>> groupByCategory() {
-        return repository.findAll()
+        Map<CategoryEnum, List<Product>>  map = repository.findAll()
                 .stream()
                 .collect(Collectors.groupingBy(
                         Product::getCategory,
                         () -> new EnumMap<>(CategoryEnum.class),
                         Collectors.toList()
                 ));
+        System.out.println(map);
+        return  map;
+
     }
 
 }

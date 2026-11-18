@@ -1,5 +1,6 @@
 package org.route;
 
+import org.route.CheckOut.OrderRegistry;
 import org.route.Pricing.PromotionalPricingService;
 import org.route.Pricing.StandardPricingService;
 import org.route.Repository.InMemoryProductRepository;

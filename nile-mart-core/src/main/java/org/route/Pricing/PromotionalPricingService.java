@@ -2,6 +2,7 @@ package org.route.Pricing;
 
 import org.route.Model.Product;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 
 @Component
 @Primary
+@Lazy(value = true)
 public class PromotionalPricingService implements PricingService{
 
     private final BigDecimal discountAmount;
