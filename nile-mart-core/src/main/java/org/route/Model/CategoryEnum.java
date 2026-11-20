@@ -10,7 +10,10 @@ public enum CategoryEnum {
 
     private final String label;
 
-    CategoryEnum(String label) {
+    CategoryEnum (String label) {
         this.label = label;
+    }
+    public String getLabel() {
+        return label;
     }
 }

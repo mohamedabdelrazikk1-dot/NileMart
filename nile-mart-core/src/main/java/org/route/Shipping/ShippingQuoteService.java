@@ -15,9 +15,8 @@ public class ShippingQuoteService
     private final BigDecimal threshold;
 
 
-    public ShippingQuoteService(ZoneShippingCalculator zoneShippingCalculator, @Qualifier("freeShipping")  ShippingCalculator freeShippingCalculator, @Value("${store.free-shipping-threshold}") BigDecimal threshold){
+    public ShippingQuoteService(ShippingCalculator zoneShippingCalculator, @Qualifier("freeShipping")  ShippingCalculator freeShippingCalculator, @Value("${store.free-shipping-threshold}") BigDecimal threshold){
         this.zoneShippingCalculator = zoneShippingCalculator;
-
         this.freeShippingCalculator = freeShippingCalculator;
         this.threshold = threshold;
     }

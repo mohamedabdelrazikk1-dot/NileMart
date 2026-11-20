@@ -15,7 +15,7 @@ import java.time.Clock;
 @Configuration
 @ComponentScan(basePackages = "org.route")
 //@ImportResource("/beans.xml")
-@PropertySource("/application.properties")
+@PropertySource("classpath:application.properties")
 @EnableAspectJAutoProxy
 public class AppConfig {
 

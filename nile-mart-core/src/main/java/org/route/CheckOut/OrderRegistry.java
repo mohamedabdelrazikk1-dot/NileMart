@@ -56,7 +56,7 @@ public List<Order> findAll(){
  }
  @PreDestroy
     public void preDestroy(){
-     System.out.println("End of day : " + orders.size() +"orders" + "revenue: "+ Money.format(revenue()));
+     System.out.println("End of day :  " + orders.size() +"  orders" + "  revenue:    "+ Money.format(revenue()));
  }
 
 
